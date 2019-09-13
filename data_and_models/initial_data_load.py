@@ -8,7 +8,31 @@ from Helpers.PickleHelper import Pickle_Helper
 
 pickler = Pickle_Helper()
 
-def initial_load():
+def create_data_directories():
+    # Creating the relevant directories
+    data_directory = os.path.join(os.path.split(os.getcwd())[0], 'data', 'imgrec-potholes')
+
+    model_data_dir = os.path.join(data_directory, 'model_data')
+    shutil.rmtree(model_data_dir)
+    if not os.path.exists(model_data_dir):
+        os.makedirs(model_data_dir)
+
+    train_data_dir = os.path.join(model_data_dir, 'train')
+    if not os.path.exists(train_data_dir):
+        os.makedirs(train_data_dir)
+
+    validate_data_dir = os.path.join(model_data_dir, 'validate')
+    if not os.path.exists(validate_data_dir):
+        os.makedirs(validate_data_dir)
+
+    test_data_dir = os.path.join(model_data_dir, 'test')
+    if not os.path.exists(test_data_dir):
+        os.makedirs(test_data_dir)
+
+    submission_data_dir = os.path.join(data_directory, 'submission')
+    return data_directory, model_data_dir, train_data_dir, validate_data_dir, test_data_dir, submission_data_dir
+
+def initial_data_load():
     data_directory = os.path.join(os.path.split(os.getcwd())[0], 'data', 'imgrec-potholes') # 'all_data'
 
     train_ids_labels = CSV_Helper()
@@ -58,6 +82,7 @@ def initial_load():
         image.img_dir = image_directory
         image.read_ext = extension
         image.read_image()
+        image.crop_image()
         image.rotate_image(angles=[90, 180, 270])
         if str(Label) == '0':
             image.new_dir = os.path.join(train_dir_0, Image_ID)
@@ -98,6 +123,7 @@ def initial_load():
         image.img_dir = image_directory
         image.read_ext = extension
         image.read_image()
+        image.crop_image()
         image.rotate_image(angles=[90, 180, 270])
         image.new_dir = os.path.join(submission_dir, Image_ID)
         image.reshape_image()

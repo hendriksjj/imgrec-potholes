@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import imutils
 
 from Helpers.PickleHelper import Pickle_Helper
 
@@ -26,12 +27,17 @@ class Image_Helper:
             print(e)
             print('Problem reading image: ' + file_name)
 
+    def crop_image(self):
+        rows, cols, ch = self.image.shape
+        pts1 = np.float32([[0, 200], [800, 200], [0, 400], [800, 400]])
+        pts2 = np.float32([[0, 0], [600, 0], [0, 200], [600, 200]])
+        M = cv2.getPerspectiveTransform(pts1, pts2)
+        dst = cv2.warpPerspective(self.image, M, (600, 200))
+        self.image = dst
+
     def rotate_image(self, angles):
-        rows, cols = self.image.shape[:2]
-        # cols-1 and rows-1 are the coordinate limits.
         for angle in angles:
-            M = cv2.getRotationMatrix2D(((cols - 1) / 2.0, (rows - 1) / 2.0), angle, 1)
-            dst = cv2.warpAffine(self.image, M, (cols, rows))
+            dst = imutils.rotate_bound(self.image, angle)
             self.rotated_images.append(dst)
 
     @staticmethod

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import csv
-from numpy import genfromtxt
+
 
 class CSV_Helper(ABC):
 

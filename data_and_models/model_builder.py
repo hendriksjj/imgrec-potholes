@@ -53,8 +53,8 @@ def create_models(model_name, per_group_subset_size):
 
     # Fit random forest
     # image_model.random_Forest()
-    # image_model.gradient_boost()
-    image_model.ada_boost()
+    image_model.gradient_boost()
+    # image_model.ada_boost()
     image_model.model_select()
 
     # Predict testing set

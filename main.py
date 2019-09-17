@@ -13,8 +13,8 @@ from Helpers.ModelHelpers import ImageModelHelper
 INITIAL_DATA_LOAD = False
 TRAIN_NEW_MODELS = True
 SUBMISSION = True
-NUM_OF_MODELS = 31
-PER_GROUP_SUBSET_SIZE = 500
+NUM_OF_MODELS = 50
+PER_GROUP_SUBSET_SIZE = 1000
 
 data_directory = os.path.join(os.path.split(os.getcwd())[0], 'data', 'imgrec-potholes')
 pickler = Pickle_Helper()
